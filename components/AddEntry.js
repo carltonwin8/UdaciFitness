@@ -1,12 +1,16 @@
 import React, { Component } from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
+import { connect } from 'react-redux';
 
 import { getMetricMetaInfo, timeToString } from '../utils/helpers';
 import UdaciSlider from './UdaciSlider';
 import UdaciSteppers from './UdaciSteppers';
 import DateHeader from './DateHeader';
 import TextButton from './TextButton';
+import { submitEntry, removeEntry } from '../utils/api';
+import { addEntry } from '../actions';
+import { getDailyReminderValue } from '../utils/helpers';
 
 function SubmitBtn ({onPress}) {
   return (<TouchableOpacity onPress={onPress}>
@@ -14,7 +18,7 @@ function SubmitBtn ({onPress}) {
   </TouchableOpacity>);
 }
 
-export default class AddEntry extends Component {
+class AddEntry extends Component {
   state = { run: 0, bike: 0, swim: 0, sleep: 0, eat: 0, }
   increment = metric => {
     const { max, step } = getMetricMetaInfo(metric);
@@ -36,17 +40,17 @@ export default class AddEntry extends Component {
   submit = () => {
     const key = timeToString();
     const entry = this.state;
-    // update redux
+    this.props.dispatch(addEntry({[key]: entry}));
     this.setState(() => ({ run: 0, bike: 0, swim: 0, sleep: 0, eat: 0, }));
     // nav to home
-    // save to db
+    submitEntry({key, entry});
     // clear local notification
   }
   reset = () => {
     const key = timeToString();
-    //update redux
+    this.props.dispatch(addEntry({[key]: getDailyReminderValue() }));
     //reoute to home
-    //update db
+    removeEntry(key);
     console.log('reset');
   }
   render = () => {
@@ -56,8 +60,8 @@ export default class AddEntry extends Component {
           name='ios-happy-outline'
           size={100}
         />
-        <Text>You already logged your information for today.</Text>
-        <TextButton reset={this.reset}>Reset</TextButton>
+        <Text>You already logged your information for today 2.</Text>
+        <TextButton onPress={this.reset}>Reset</TextButton>
       </View>);
     } else {
       const metaInfo = getMetricMetaInfo();
@@ -88,3 +92,11 @@ export default class AddEntry extends Component {
     }
   }
 }
+
+function mapStateToProps (state) {
+  const key = timeToString();
+  return {
+    alreadyLogged: state[key] && typeof state[key].today === 'undefined'
+  }
+}
+export default connect(mapStateToProps, null)(AddEntry);
