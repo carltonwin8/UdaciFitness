@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, TouchableOpacity } from 'react-native';
+import { View, Text, TouchableOpacity, Platform, StyleSheet } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { connect } from 'react-redux';
 
@@ -11,6 +11,7 @@ import TextButton from './TextButton';
 import { submitEntry, removeEntry } from '../utils/api';
 import { addEntry } from '../actions';
 import { getDailyReminderValue } from '../utils/helpers';
+import { white, purple } from '../utils/colors';
 
 function SubmitBtn ({onPress}) {
   return (<TouchableOpacity onPress={onPress}>
@@ -92,6 +93,36 @@ class AddEntry extends Component {
     }
   }
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: white,
+  },
+  // iosSubmitBtn: {
+  //   backgroundColor: purple,
+  //   padding: 10,
+  //   borderRadius: 7,
+  //   height: 45,
+  //   marginLeft: 40,
+  //   marginRight: 40,
+  // },
+  // androidSubmitBtn: {
+  //   backgroundColor: purple,
+  //   padding: 10,
+  //   borderRadius: 2,
+  //   height: 45,
+  //   marginLeft: 30,
+  //   marginRight: 30,
+  //   justifyContent: 'center',
+  //   alignItems: 'center'
+  // },
+  // submitBtnText: {
+  //   color: white,
+  //   fontSize: 22,
+  //   textAlign: 'center',
+  // },
+});
 
 function mapStateToProps (state) {
   const key = timeToString();
