@@ -10,8 +10,8 @@ const styles = StyleSheet.create({
   iconContainer: {
     padding: 5,
     borderRadius: 8,
-    width: 50,
-    height: 50,
+    width: 40,
+    height: 40,
     justifyContent: 'center',
     alignItems: 'center',
     marginRight: 20,
