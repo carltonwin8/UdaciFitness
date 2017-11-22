@@ -10,6 +10,7 @@ import reducers from './reducers';
 
 import AddEntry from './components/AddEntry';
 import History from './components/History';
+import Live from './components/Live';
 import EntryDetail from './components/EntryDetail';
 import { white, purple } from './utils/colors';
 
@@ -38,6 +39,14 @@ const Tabs = TabNavigator({
         color={tintColor} />
     }
   },
+  Live: {
+    screen: Live,
+    navigationOptions: {
+      tabBarLabel: 'Live',
+      tabBarIcon: ({ tintColor }) => <Ionicons name='ios-speedometer' size={30}
+        color={tintColor} />
+    }
+  }
 }, {
   navigationOptions: {
     header: null,
