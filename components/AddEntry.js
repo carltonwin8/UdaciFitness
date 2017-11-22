@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { View, Text, TouchableOpacity, Platform, StyleSheet } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { connect } from 'react-redux';
+import { NavigationActions } from 'react-navigation';
 
 import { getMetricMetaInfo, timeToString } from '../utils/helpers';
 import UdaciSlider from './UdaciSlider';
@@ -46,16 +47,20 @@ class AddEntry extends Component {
     const entry = this.state;
     this.props.dispatch(addEntry({[key]: entry}));
     this.setState(() => ({ run: 0, bike: 0, swim: 0, sleep: 0, eat: 0, }));
-    // nav to home
+    this.toHome();
     submitEntry({key, entry});
     // clear local notification
+  }
+  toHome = () => {
+    this.props.navigation.dispatch(
+      NavigationActions.back({ key: 'AddEntry' })
+    );
   }
   reset = () => {
     const key = timeToString();
     this.props.dispatch(addEntry({[key]: getDailyReminderValue() }));
-    //reoute to home
+    this.toHome()
     removeEntry(key);
-    console.log('reset');
   }
   render = () => {
     if (this.props.alreadyLogged) {
