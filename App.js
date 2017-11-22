@@ -48,6 +48,7 @@ const Tabs = TabNavigator({
     }
   }
 }, {
+  order: ['Live', 'History', 'AddEntry'],
   navigationOptions: {
     header: null,
   },
