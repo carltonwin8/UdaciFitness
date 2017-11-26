@@ -4,14 +4,19 @@ import { Ionicons } from '@expo/vector-icons';
 import { connect } from 'react-redux';
 import { NavigationActions } from 'react-navigation';
 
-import { getMetricMetaInfo, timeToString } from '../utils/helpers';
+import {
+  getMetricMetaInfo,
+  timeToString,
+  getDailyReminderValue,
+  clearLocalNotification,
+  setLocalNotification,
+} from '../utils/helpers';
 import UdaciSlider from './UdaciSlider';
 import UdaciSteppers from './UdaciSteppers';
 import DateHeader from './DateHeader';
 import TextButton from './TextButton';
 import { submitEntry, removeEntry } from '../utils/api';
 import { addEntry } from '../actions';
-import { getDailyReminderValue } from '../utils/helpers';
 import { white, purple } from '../utils/colors';
 
 function SubmitBtn ({onPress}) {
@@ -49,7 +54,7 @@ class AddEntry extends Component {
     this.setState(() => ({ run: 0, bike: 0, swim: 0, sleep: 0, eat: 0, }));
     this.toHome();
     submitEntry({key, entry});
-    // clear local notification
+    clearLocalNotification().then(setLocalNotification);
   }
   toHome = () => {
     this.props.navigation.dispatch(
